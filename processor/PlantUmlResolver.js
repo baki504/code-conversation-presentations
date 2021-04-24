@@ -2,10 +2,9 @@ const fs = require("fs");
 const md5 = require("md5");
 const nodePlantUml = require("node-plantuml");
 
-const plantUmlDir = "./src/img/plantuml";
-if (!fs.existsSync(plantUmlDir)) {
-  fs.mkdirSync(plantUmlDir);
-}
+const MARKDOWN_DIR = process.env.MARKDOWN_DIR;
+const IMAGE_DIR = process.env.IMAGE_DIR;
+const PLANTUML_DIR = process.env.PLANTUML_DIR;
 
 /**
  * Generate PNG image from PlantUML-scripts
@@ -26,24 +25,28 @@ if (!fs.existsSync(plantUmlDir)) {
  * @param {string} markdown
  * @returns {string} markdown with PlantUML-scripts resolved by img tag
  */
-const resolvePlantUml = (markdown) =>
-  // todo:
-  // const plantUmlScripts = markdown.replace(...)
-  markdown.replace(/```plantuml\s*([\s\S]*?)```/gim, (match, text, offset) => {
-    console.log(text);
+const resolvePlantUml = (markdown) => {
+  const plantUmlDir = `${MARKDOWN_DIR}/${IMAGE_DIR}/${PLANTUML_DIR}`;
 
+  // if (fs.existsSync(plantUmlDir)) {
+  //   fs.rmdirSync(plantUmlDir, { recursive: true });
+  // }
+  // fs.mkdirSync(plantUmlDir);
+
+  markdown.replace(/```plantuml\s*([\s\S]*?)```/gim, (match, text) => {
     const imageName = `${md5(text)}.png`;
-    const imagePath = `${plantUmlDir}/${imageName}`;
+    const plantumlImagePath = `${plantUmlDir}/${imageName}`;
 
-    if (!fs.existsSync(imagePath)) {
-      const generated = nodePlantUml.generate(text);
-      generated.out.pipe(fs.createWriteStream(imagePath));
-      console.log(`Save as: ${imagePath}`);
+    if (!fs.existsSync(plantumlImagePath)) {
+      const umlDiagram = nodePlantUml.generate(text);
+      umlDiagram.out.pipe(fs.createWriteStream(plantumlImagePath));
+      console.log(`Save as: ${plantumlImagePath}`);
     } else {
-      console.log(`File already exists: ${imagePath}`);
+      // console.log(`File already exists: ${plantumlImagePath}`);
     }
 
-    return `<img src="./img/plantuml/${imageName}" alt="uml_diagram" />`;
+    return `<img src="${IMAGE_DIR}/${PLANTUML_DIR}/${imageName}" alt="uml_diagram" />`;
   });
+};
 
 module.exports = resolvePlantUml;
