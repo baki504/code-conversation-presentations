@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "reveal-md src --preprocessor preproc.js -w",
-    "build": "rm -r slides & reveal-md src --static slides"
+    "start": "reveal-md src --preprocessor preprocessor/preproc.js -w",
+    "build": "rm -r presentations & reveal-md src --static presentations"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,8 @@
   },
   "homepage": "https://github.com/baki504/code-conversation-presentations#readme",
   "dependencies": {
-    "dotenv": "^8.2.0",
     "md5": "^2.3.0",
     "node-plantuml": "^0.9.0",
-    "request": "^2.88.2",
     "reveal-md": "^5.0.0"
   }
 }

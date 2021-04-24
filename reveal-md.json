@@ -3,6 +3,5 @@
   "theme": "league",
   "css": "src/css/style.css",
   "staticDirs": "src/img",
-  "preprocessor": "preproc.js",
-  "test": "aaa"
+  "preprocessor": "preproc.js"
 }

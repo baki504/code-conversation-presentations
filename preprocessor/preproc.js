@@ -1,5 +1,4 @@
-require("dotenv").config();
-const resolvePlantuml = require("./processor/PlantUmlResolver");
+const resolvePlantuml = require("./resolver/PlantUmlResolver");
 
 module.exports = (markdown, options) =>
   new Promise((resolve, reject) => resolve(resolvePlantuml(markdown, options)));
